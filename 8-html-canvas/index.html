@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+
+  <script>
+    const canvas = document.querySelector('#draw');
+    // you don't draw directly on canvas, but on the context - which can be 2d or 3d for video games etc
+    // ctx is where we do all our drawing
+    const ctx = canvas.getContext('2d');
+    // size up canvas to be exact width of window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // colour when starting to draw
+    ctx.strokeStyle = '#BADA55';
+    // make line round when it stops or meets another line
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 50;
+
+    // set this to false unless mouse is clicked down and then set to true, to avoid drawing when user is moving mouse but not clicking
+    let isDrawing = false
+    // start and end coordinates of line drawn
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+
+    function draw(e) {
+      if(!isDrawing) return; // stop function from running when they are not moused down
+      // start a path
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.beginPath();
+      // start from
+      ctx.moveTo(lastX, lastY);
+      // go to
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+
+      hue++;
+      if(hue >= 360) {
+        hue = 0;
+      }
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      // update lastX and lastY so new line starts from new point
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    // stops drawing when mouse leaves canvas
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+  </script>
+
+  <style>
+    html, body {
+      margin: 0;
+    }
+  </style>
+
+</body>
+</html>
