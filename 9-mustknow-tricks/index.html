@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onclick="makeGreen()">BREAK DOWN</p>
+
+  <script>
+    // In inspect - right click on element, break on...attributes modifications
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'Hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    };
+
+    // Regular
+    console.log('hello');
+
+    // Interpolated
+    console.log('Hello I am a %s string', 'insert this');
+    console.log(`Hello I am a ${variable}`);
+
+    // Styled
+    console.log('%c I am some great text', 'font-size: 12px; background: red;');
+
+    // Warning
+    console.warn('Oh no');
+
+    // Error
+    console.error('Oh no');
+
+    // Info
+    console.info('Oh no');
+
+    // Testing - will only fire if something is wrong
+    console.assert(1 === 1, 'That is wrong');
+
+    // Clearing
+    console.clear();
+
+    // Viewing DOM elements - view available methods and properties on that element
+    console.log(p); // this is the element
+    console.dir(p); // this allows you to open it up and look at classList etc
+
+    // Grouping together
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.groupEnd(`${dog.name}`);
+    });
+
+    // Timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console..log(data);
+      });
+
+
+  </script>
+
+</body>
+</html>
+
+
+
